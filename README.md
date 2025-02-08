@@ -1,5 +1,7 @@
 # Easy Order Management for WooCommerce
 
+![Easy Order Management Preview](assets/images/Preview%20Image%20Easy%20Order%20Management.png)
+
 A simple yet powerful order management system for WooCommerce with custom field support and role-based access control.
 
 ## Features
@@ -31,11 +33,14 @@ A simple yet powerful order management system for WooCommerce with custom field 
 
 ### Basic Setup
 
+![General Settings](assets/images/Admin%20General%20Settings.png)
+
 1. Configure General Settings:
    - Set orders per page
    - Configure role access permissions
 
 2. Manage Columns:
+   ![Field Configuration](assets/images/Admin%20Field%20Configuration.png)
    - Go to Field Configuration > Column Management
    - Drag and drop to reorder columns
    - Add/remove columns as needed
@@ -47,11 +52,13 @@ A simple yet powerful order management system for WooCommerce with custom field 
 ### Adding Custom Fields
 
 1. Create ACF Fields:
+   ![ACF Field Configuration](assets/images/Admin%20Field%20Configuration%20ACF.png)
    - Create a field group for orders
    - Add your desired fields
    - Set location rule to "Post Type is equal to Shop order"
 
 2. Add to Display:
+   ![ACF Order Fields](assets/images/ACF%20Order%20Field.png)
    - Go to Column Management
    - Your ACF fields will appear in the available columns
    - Add them to your display
