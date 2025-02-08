@@ -1,11 +1,14 @@
 <?php
 /**
- * Settings management class
- *
- * @package Easy_Order_Management
+ * The control center for our plugin
+ * 
+ * This is where all the settings magic happens. Handles everything from
+ * saving your preferences to making the admin interface look pretty.
+ * 
+ * Pro tip: Most of the plugin's behavior can be tweaked from here!
  */
 
-// Prevent direct access
+// Keep the hackers out
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -16,7 +19,7 @@ if (!defined('ABSPATH')) {
  */
 class WB_Settings {
     /**
-     * Settings options key
+     * Where we store all our settings in wp_options
      */
     const OPTION_KEY = 'wb_order_management_settings';
 
@@ -24,13 +27,15 @@ class WB_Settings {
      * Constructor
      */
     public function __construct() {
+        // Hook into WordPress admin
         add_action('admin_menu', [$this, 'add_settings_menu'], 99);
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_enqueue_scripts', [$this, 'enqueue_admin_scripts']);
     }
 
     /**
-     * Add settings menu under WooCommerce
+     * Adds our settings page under WooCommerce menu
+     * We use priority 99 to stick it near the bottom
      */
     public function add_settings_menu(): void {
         add_submenu_page(
@@ -44,7 +49,8 @@ class WB_Settings {
     }
 
     /**
-     * Register settings
+     * Sets up all our settings fields and sections
+     * This is where we tell WordPress what we want to save
      */
     public function register_settings(): void {
         register_setting(
@@ -57,7 +63,7 @@ class WB_Settings {
             ]
         );
 
-        // General Settings Section
+        // General stuff - the basics everyone needs
         add_settings_section(
             'wb_general_settings',
             __('General Settings', 'easy-order-management'),
@@ -65,7 +71,7 @@ class WB_Settings {
             'wb-order-management-settings'
         );
 
-        // Add settings fields
+        // Add the basic fields
         add_settings_field(
             'order_columns',
             __('Order Table Columns', 'easy-order-management'),
@@ -82,7 +88,7 @@ class WB_Settings {
             'wb_general_settings'
         );
 
-        // Field Configuration Section
+        // Advanced configuration - for the power users
         add_settings_section(
             'wb_field_config',
             __('Field Configuration', 'easy-order-management'),
@@ -108,9 +114,8 @@ class WB_Settings {
     }
 
     /**
-     * Get default settings
-     *
-     * @return array
+     * The factory settings - what you get out of the box
+     * Feel free to override these with the filter hook
      */
     public function get_default_settings(): array {
         return [
@@ -135,30 +140,28 @@ class WB_Settings {
     }
 
     /**
-     * Sanitize settings
-     *
-     * @param array $input The input array to sanitize.
-     * @return array
+     * Keeps the bad data out
+     * Makes sure users can't save anything nasty
      */
     public function sanitize_settings(array $input): array {
         $sanitized = [];
         
-        // Sanitize order columns
+        // Clean up the column settings
         if (isset($input['order_columns']) && is_array($input['order_columns'])) {
             $sanitized['order_columns'] = array_map('rest_sanitize_boolean', $input['order_columns']);
         }
 
-        // Sanitize orders per page
+        // Make sure orders per page is a sensible number
         $sanitized['orders_per_page'] = isset($input['orders_per_page']) 
             ? absint($input['orders_per_page']) 
             : 20;
 
-        // Sanitize status labels
+        // Clean up status label text
         if (isset($input['status_labels']) && is_array($input['status_labels'])) {
             $sanitized['status_labels'] = array_map('sanitize_text_field', $input['status_labels']);
         }
 
-        // Sanitize role access
+        // Make sure role access is boolean
         if (isset($input['role_access']) && is_array($input['role_access'])) {
             $sanitized['role_access'] = array_map('rest_sanitize_boolean', $input['role_access']);
         }
@@ -167,21 +170,23 @@ class WB_Settings {
     }
 
     /**
-     * Render settings page
+     * The main settings page layout
+     * Tabs, forms, and all that good stuff
      */
     public function render_settings_page(): void {
+        // Make sure they belong here
         if (!current_user_can('manage_woocommerce')) {
             wp_die(__('You do not have sufficient permissions to access this page.', 'easy-order-management'));
         }
 
-        // Get current tab
+        // Figure out which tab we're on
         $current_tab = isset($_GET['tab']) ? sanitize_key($_GET['tab']) : 'general';
         $tabs = [
             'general' => __('General Settings', 'easy-order-management'),
             'fields' => __('Field Configuration', 'easy-order-management'),
         ];
 
-        // Check nonce and capability before saving
+        // Handle form submission
         $nonce_verified = false;
         if (isset($_POST['_wpnonce'])) {
             $nonce_verified = wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['_wpnonce'])), 'wb_order_management_settings-options');
@@ -222,7 +227,8 @@ class WB_Settings {
     }
 
     /**
-     * Render general settings tab
+     * The basic settings tab
+     * Simple stuff that everyone needs to configure
      */
     private function render_general_settings_tab(): void {
         ?>
@@ -242,7 +248,8 @@ class WB_Settings {
     }
 
     /**
-     * Render field configuration tab
+     * The power user settings tab
+     * More advanced stuff for customizing the plugin
      */
     private function render_field_config_tab(): void {
         ?>
@@ -261,13 +268,14 @@ class WB_Settings {
     }
 
     /**
-     * Render column management field
+     * The drag-and-drop column manager
+     * Let users pick what they want to see
      */
     public function render_column_management_field(): void {
         $options = get_option(self::OPTION_KEY, $this->get_default_settings());
         $columns = $options['order_columns'] ?? [];
 
-        // Define standard columns
+        // The columns we offer out of the box
         $available_columns = [
             'order_number' => __('Order Number', 'easy-order-management'),
             'order_date' => __('Order Date', 'easy-order-management'),
@@ -278,7 +286,7 @@ class WB_Settings {
             'payment_method' => __('Payment Method', 'easy-order-management'),
         ];
 
-        // Add ACF fields to available columns if ACF is active
+        // Add ACF fields if they exist
         if (function_exists('acf_get_field_groups')) {
             $field_groups = acf_get_field_groups(['post_type' => 'shop_order']);
             
@@ -324,7 +332,8 @@ class WB_Settings {
     }
 
     /**
-     * Render a single column item
+     * A single column in the manager
+     * Shows the label and delete button
      */
     private function render_column_item(string $key, string $label): void {
         ?>
@@ -340,14 +349,16 @@ class WB_Settings {
     }
 
     /**
-     * Render general settings section
+     * Intro text for general settings
+     * Just a friendly explanation
      */
     public function render_general_settings_section(): void {
         echo '<p>' . esc_html__('Configure the general settings for the order management interface.', 'easy-order-management') . '</p>';
     }
 
     /**
-     * Render order columns field
+     * The column picker checkboxes
+     * Old school but gets the job done
      */
     public function render_order_columns_field(): void {
         $options = get_option(self::OPTION_KEY, $this->get_default_settings());
@@ -372,7 +383,8 @@ class WB_Settings {
     }
 
     /**
-     * Render orders per page field
+     * How many orders to show per page
+     * Simple number input with some limits
      */
     public function render_orders_per_page_field(): void {
         $options = get_option(self::OPTION_KEY, $this->get_default_settings());
@@ -381,14 +393,16 @@ class WB_Settings {
     }
 
     /**
-     * Render field configuration section
+     * Intro text for field config
+     * Explains the more advanced options
      */
     public function render_field_config_section(): void {
         echo '<p>' . esc_html__('Configure custom fields, status labels, and access control for the order management interface.', 'easy-order-management') . '</p>';
     }
 
     /**
-     * Render status labels field
+     * Custom labels for order statuses
+     * Let users speak their language
      */
     public function render_status_labels_field(): void {
         $options = get_option(self::OPTION_KEY, $this->get_default_settings());
@@ -411,7 +425,8 @@ class WB_Settings {
     }
 
     /**
-     * Render role access field
+     * Who gets to use this plugin
+     * Set up the VIP list
      */
     public function render_role_access_field(): void {
         $options = get_option(self::OPTION_KEY, $this->get_default_settings());
@@ -436,15 +451,15 @@ class WB_Settings {
     }
 
     /**
-     * Enqueue admin scripts
-     *
-     * @param string $hook The current admin page.
+     * Loads our CSS and JS
+     * But only when we need it
      */
     public function enqueue_admin_scripts(string $hook): void {
         if ('woocommerce_page_wb-order-management-settings' !== $hook) {
             return;
         }
 
+        // Make it pretty
         wp_enqueue_style(
             'wb-admin-settings',
             WB_PLUGIN_URL . 'assets/css/admin-settings.css',
@@ -452,10 +467,12 @@ class WB_Settings {
             WB_VERSION
         );
 
+        // Need this for drag and drop
         wp_enqueue_script(
             'jquery-ui-sortable'
         );
 
+        // Our custom JS
         wp_enqueue_script(
             'wb-admin-settings',
             WB_PLUGIN_URL . 'assets/js/admin-settings.js',
@@ -464,6 +481,7 @@ class WB_Settings {
             true
         );
 
+        // Translations for JS
         wp_localize_script(
             'wb-admin-settings',
             'wb_settings',
