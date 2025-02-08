@@ -1,0 +1,221 @@
+.wb-settings-wrap {
+    margin: 20px;
+    max-width: 800px;
+}
+
+/* Tabs styling */
+.nav-tab-wrapper {
+    margin-bottom: 20px;
+}
+
+.nav-tab {
+    margin-left: 0;
+    margin-right: 0.5em;
+}
+
+/* Settings tabs content */
+.settings-tab {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+.wb-settings-wrap .form-table th {
+    width: 250px;
+}
+
+.wb-settings-wrap .form-table td {
+    padding: 20px 10px;
+}
+
+.wb-settings-wrap .description {
+    color: #666;
+    font-style: italic;
+    margin-top: 5px;
+}
+
+/* Section headers */
+.wb-settings-wrap h2 {
+    font-size: 1.5em;
+    margin: 1.5em 0 1em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Success message styling */
+.wb-settings-updated {
+    background: #fff;
+    border-left: 4px solid #46b450;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.1);
+    margin: 5px 0 15px;
+    padding: 1px 12px;
+}
+
+/* Column Management styling */
+.columns-container {
+    margin-bottom: 20px;
+}
+
+.columns-list {
+    margin-bottom: 15px;
+    min-height: 50px;
+}
+
+.column-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    cursor: move;
+}
+
+.column-item:hover {
+    background: #f0f0f0;
+}
+
+.column-item .handle {
+    cursor: move;
+    color: #666;
+}
+
+.column-item .column-label {
+    flex: 1;
+    font-weight: 500;
+}
+
+.column-item .remove-column {
+    padding: 0;
+    background: none;
+    border: none;
+    color: #dc3232;
+    cursor: pointer;
+}
+
+.column-item .remove-column:hover {
+    color: #dc3232;
+}
+
+.column-item .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+}
+
+.add-column-section {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-top: 15px;
+}
+
+#available-columns {
+    flex: 1;
+    max-width: 300px;
+}
+
+/* Custom Fields styling */
+.custom-fields-container {
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+.custom-fields-list {
+    margin-bottom: 15px;
+}
+
+.custom-field-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.custom-field-row input[type="text"] {
+    flex: 1;
+    min-width: 120px;
+}
+
+.custom-field-row select {
+    width: 100px;
+}
+
+.custom-field-row label {
+    white-space: nowrap;
+    margin-right: 10px;
+}
+
+/* Status Labels styling */
+.status-label-row {
+    margin-bottom: 10px;
+}
+
+.status-label-row label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status-label-row input[type="text"] {
+    width: 200px;
+}
+
+/* Role Access styling */
+.role-access-options label {
+    display: block;
+    margin-bottom: 8px;
+    padding: 5px;
+    background: #f9f9f9;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.role-access-options label:hover {
+    background: #f0f0f0;
+}
+
+/* Sortable placeholder */
+.sortable-placeholder {
+    border: 2px dashed #ccc;
+    background: #f7f7f7;
+    height: 42px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .custom-field-row,
+    .column-item {
+        flex-wrap: wrap;
+    }
+
+    .custom-field-row input[type="text"],
+    .custom-field-row select {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .custom-field-row label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .add-column-section {
+        flex-direction: column;
+    }
+
+    #available-columns {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+} 

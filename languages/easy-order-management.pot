@@ -1,0 +1,75 @@
+# Copyright (C) 2024 Wunderlandmedia
+# This file is distributed under the MIT license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy Order Management 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/easy-order-management\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: easy-order-management\n"
+
+#: includes/class-wb-admin.php:20
+msgid "Orders Management"
+msgstr ""
+
+#: includes/class-wb-admin.php:21
+msgid "Orders"
+msgstr ""
+
+#: templates/orders-page.php:89
+msgid "Search orders"
+msgstr ""
+
+#: templates/orders-page.php:94
+msgid "All Statuses"
+msgstr ""
+
+#: templates/orders-page.php:95
+msgid "On Hold"
+msgstr ""
+
+#: templates/orders-page.php:96
+msgid "Processing"
+msgstr ""
+
+#: templates/orders-page.php:97
+msgid "Completed"
+msgstr ""
+
+#: templates/orders-page.php:103
+msgid "From"
+msgstr ""
+
+#: templates/orders-page.php:109
+msgid "To"
+msgstr ""
+
+#: templates/orders-page.php:112
+msgid "Filter"
+msgstr ""
+
+#: templates/orders-page.php:113
+msgid "Reset"
+msgstr ""
+
+#: templates/orders-page.php:142
+msgid "Status"
+msgstr ""
+
+#: templates/orders-page.php:143
+msgid "Action"
+msgstr ""
+
+#: templates/orders-page.php:155
+msgid "No orders found."
+msgstr ""
+
+#: templates/orders-page.php:189
+msgid "Update"
+msgstr "" 

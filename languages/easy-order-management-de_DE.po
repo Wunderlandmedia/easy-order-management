@@ -1,0 +1,68 @@
+# Copyright (C) 2024 Wunderlandmedia
+# This file is distributed under the MIT license.
+msgid ""
+msgstr ""
+"Project-Id-Version: Easy Order Management 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/easy-order-management\n"
+"POT-Creation-Date: 2024-01-01T00:00:00+00:00\n"
+"PO-Revision-Date: 2024-01-01T00:00:00+00:00\n"
+"Last-Translator: \n"
+"Language-Team: German\n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: WP-CLI 2.8.1\n"
+"X-Domain: easy-order-management\n"
+
+msgid "Orders Management"
+msgstr "Bestellungsverwaltung"
+
+msgid "Orders"
+msgstr "Bestellungen"
+
+msgid "Search orders"
+msgstr "Bestellungen suchen"
+
+msgid "All Statuses"
+msgstr "Alle Status"
+
+msgid "On Hold"
+msgstr "In Wartestellung"
+
+msgid "Processing"
+msgstr "In Bearbeitung"
+
+msgid "Completed"
+msgstr "Abgeschlossen"
+
+msgid "From"
+msgstr "Von"
+
+msgid "To"
+msgstr "Bis"
+
+msgid "Filter"
+msgstr "Filtern"
+
+msgid "Reset"
+msgstr "Zurücksetzen"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Action"
+msgstr "Aktion"
+
+msgid "No orders found."
+msgstr "Keine Bestellungen gefunden."
+
+msgid "Update"
+msgstr "Aktualisieren"
+
+msgid "Status updated successfully!"
+msgstr "Status erfolgreich aktualisiert!"
+
+msgid "Error updating status!"
+msgstr "Fehler beim Aktualisieren des Status!" 

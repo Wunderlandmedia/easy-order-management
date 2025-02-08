@@ -1,0 +1,99 @@
+.wb-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    table-layout: fixed;
+}
+
+.wb-orders-table th,
+.wb-orders-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wb-orders-table th {
+    background-color: #f5f5f5;
+}
+
+/* Column widths */
+.wb-orders-table .column-id {
+    width: 60px;
+}
+
+.wb-orders-table .column-status {
+    width: 140px;
+}
+
+.wb-orders-table .column-action {
+    width: 100px;
+}
+
+.wb-status-select {
+    width: 130px;
+}
+
+.wb-update-status {
+    min-width: 80px;
+}
+
+.wb-status-updating {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Search and Filters */
+.wb-filters {
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.wb-filters form {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.wb-search-input {
+    min-width: 250px;
+    height: 30px;
+}
+
+.wb-filter-select,
+.wb-date-input {
+    height: 30px;
+    min-width: 130px;
+}
+
+/* Pagination */
+.wb-pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.wb-pagination .page-numbers {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    background: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.wb-pagination .page-numbers.current {
+    background: #0073aa;
+    color: #fff;
+    border-color: #0073aa;
+}
+
+.wb-pagination .page-numbers:hover:not(.current) {
+    background: #f5f5f5;
+} 
