@@ -7,6 +7,13 @@
  * If you need to modify order handling, this is your guy.
  */
 class WB_Order_Manager {
+    // Our bouncer - handles security checks
+    private $security;
+
+    public function __construct() {
+        $this->security = new WB_Security();
+    }
+
     /**
      * Gets a list of orders with all the bells and whistles
      * 
@@ -25,6 +32,14 @@ class WB_Order_Manager {
      * @return array List of WC_Order objects
      */
     public function get_orders(array $args = array()): array {
+        // Make sure they have permission to view orders
+        if (!current_user_can('manage_woocommerce')) {
+            $this->security->log_security_event('unauthorized_order_access', [
+                'args' => $args
+            ]);
+            return array();
+        }
+
         $default_args = array(
             'limit' => 20,
             'paged' => 1,
@@ -37,6 +52,8 @@ class WB_Order_Manager {
             'type' => 'shop_order'
         );
 
+        // Clean up the input
+        $args = array_map([$this->security, 'validate_data'], $args, array_fill(0, count($args), 'text'));
         $args = wp_parse_args($args, $default_args);
         
         // Quick shortcut: if searching for order number, try direct lookup first
@@ -61,12 +78,12 @@ class WB_Order_Manager {
         $date_query = array();
         
         if (!empty($args['date_from'])) {
-            $date_query['after'] = sanitize_text_field($args['date_from']);
+            $date_query['after'] = $this->security->validate_data($args['date_from'], 'text');
         }
         
         if (!empty($args['date_to'])) {
             // Include the whole day by setting time to end of day
-            $date_query['before'] = sanitize_text_field($args['date_to']) . ' 23:59:59';
+            $date_query['before'] = $this->security->validate_data($args['date_to'], 'text') . ' 23:59:59';
         }
         
         if (!empty($date_query)) {
@@ -77,7 +94,7 @@ class WB_Order_Manager {
         // Hook in our extended search if needed
         if (!empty($args['search'])) {
             add_action('pre_get_posts', array($this, 'extend_order_search'));
-            $query_args['s'] = sanitize_text_field($args['search']);
+            $query_args['s'] = $this->security->validate_data($args['search'], 'text');
         }
 
         $orders = wc_get_orders($query_args);
@@ -95,6 +112,11 @@ class WB_Order_Manager {
      * Useful for pagination calculations
      */
     public function get_total_orders(array $args = array()): int {
+        // Make sure they have permission
+        if (!current_user_can('manage_woocommerce')) {
+            return 0;
+        }
+
         unset($args['paged']);
         $args['limit'] = -1;
         $orders = $this->get_orders($args);
@@ -133,10 +155,12 @@ class WB_Order_Manager {
             '_billing_email'
         );
 
+        $search_term = $this->security->validate_data($search_term, 'text');
+
         foreach ($search_fields as $field) {
             $meta_query[] = array(
                 'key' => $field,
-                'value' => sanitize_text_field($search_term),
+                'value' => $search_term,
                 'compare' => 'LIKE'
             );
         }
@@ -149,7 +173,7 @@ class WB_Order_Manager {
         // Also check the actual order number meta
         $meta_query[] = array(
             'key' => '_order_number',
-            'value' => sanitize_text_field($search_term),
+            'value' => $search_term,
             'compare' => '='
         );
 
@@ -167,19 +191,41 @@ class WB_Order_Manager {
      * Handles the status update button clicks from the orders table
      */
     public function update_order_status(): void {
-        check_ajax_referer('wb_update_status', 'nonce');
+        // Check nonce and rate limiting
+        $nonce_check = $this->security->verify_nonce(
+            isset($_POST['nonce']) ? sanitize_text_field($_POST['nonce']) : '',
+            'wb_update_status'
+        );
+        if (is_wp_error($nonce_check)) {
+            wp_send_json_error($nonce_check->get_error_message());
+            return;
+        }
+
+        // Check rate limiting
+        $rate_check = $this->security->check_rate_limit('update_order_status', 10, 60);
+        if (is_wp_error($rate_check)) {
+            wp_send_json_error($rate_check->get_error_message());
+            return;
+        }
 
         if (!current_user_can('manage_woocommerce')) {
+            $this->security->log_security_event('unauthorized_status_update', [
+                'order_id' => isset($_POST['order_id']) ? absint($_POST['order_id']) : 0
+            ]);
             wp_die(-1);
         }
 
         $order_id = isset($_POST['order_id']) ? absint($_POST['order_id']) : 0;
-        $new_status = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+        $new_status = isset($_POST['status']) ? $this->security->validate_data($_POST['status'], 'text') : '';
 
         if ($order_id && $new_status) {
             $order = wc_get_order($order_id);
             if ($order instanceof WC_Order && $order->get_type() === 'shop_order') {
                 $order->update_status($new_status);
+                $this->security->log_security_event('order_status_updated', [
+                    'order_id' => $order_id,
+                    'new_status' => $new_status
+                ]);
                 wp_send_json_success();
             }
         }
