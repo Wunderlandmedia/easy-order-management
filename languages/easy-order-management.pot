@@ -15,11 +15,39 @@ msgstr ""
 "X-Domain: easy-order-management\n"
 
 #: includes/class-wb-admin.php:20
-msgid "Orders Management"
+msgid "Order Management"
 msgstr ""
 
 #: includes/class-wb-admin.php:21
 msgid "Orders"
+msgstr ""
+
+#: includes/class-wb-admin.php:22
+msgid "Order Logs"
+msgstr ""
+
+#: includes/class-wb-logger.php:89
+msgid "Date"
+msgstr ""
+
+#: includes/class-wb-logger.php:90
+msgid "User"
+msgstr ""
+
+#: includes/class-wb-logger.php:91
+msgid "Order Number"
+msgstr ""
+
+#: includes/class-wb-logger.php:92
+msgid "Details"
+msgstr ""
+
+#: includes/class-wb-logger.php:97
+msgid "No logs found."
+msgstr ""
+
+#: includes/class-wb-order-manager.php:150
+msgid "Order status changed from %s to %s"
 msgstr ""
 
 #: templates/orders-page.php:89
@@ -72,4 +100,12 @@ msgstr ""
 
 #: templates/orders-page.php:189
 msgid "Update"
+msgstr ""
+
+#: includes/class-wb-admin.php:85
+msgid "Status updated successfully!"
+msgstr ""
+
+#: includes/class-wb-admin.php:86
+msgid "Error updating status!"
 msgstr "" 

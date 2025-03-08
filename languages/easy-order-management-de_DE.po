@@ -16,11 +16,32 @@ msgstr ""
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: easy-order-management\n"
 
-msgid "Orders Management"
-msgstr "Bestellungsverwaltung"
+msgid "Order Management"
+msgstr "Bestellverwaltung"
 
 msgid "Orders"
 msgstr "Bestellungen"
+
+msgid "Order Logs"
+msgstr "Bestellprotokolle"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "User"
+msgstr "Benutzer"
+
+msgid "Order Number"
+msgstr "Bestellnummer"
+
+msgid "Details"
+msgstr "Details"
+
+msgid "No logs found."
+msgstr "Keine Protokolle gefunden."
+
+msgid "Order status changed from %s to %s"
+msgstr "Bestellstatus wurde von %s zu %s geändert"
 
 msgid "Search orders"
 msgstr "Bestellungen suchen"

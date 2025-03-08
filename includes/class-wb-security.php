@@ -28,19 +28,24 @@ class WB_Security {
      */
     public function __construct() {
         // Set up our security measures
-        add_action('init', [$this, 'init_security_headers']);
+        add_filter('wp_headers', [$this, 'add_security_headers']);
         add_action('admin_init', [$this, 'verify_user_capabilities']);
     }
 
     /**
-     * Sets up some basic security headers
+     * Adds security headers to WordPress responses
      * Helps prevent common attacks like XSS, clickjacking, etc.
+     * 
+     * @param array $headers Existing headers
+     * @return array Modified headers
      */
-    public function init_security_headers(): void {
-        header('X-Content-Type-Options: nosniff');
-        header('X-Frame-Options: SAMEORIGIN');
-        header('X-XSS-Protection: 1; mode=block');
-        header('Referrer-Policy: strict-origin-when-cross-origin');
+    public function add_security_headers($headers): array {
+        $headers['X-Content-Type-Options'] = 'nosniff';
+        $headers['X-Frame-Options'] = 'SAMEORIGIN';
+        $headers['X-XSS-Protection'] = '1; mode=block';
+        $headers['Referrer-Policy'] = 'strict-origin-when-cross-origin';
+        
+        return $headers;
     }
 
     /**

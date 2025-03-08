@@ -97,3 +97,43 @@
 .wb-pagination .page-numbers:hover:not(.current) {
     background: #f5f5f5;
 } 
+
+/* Logging table column widths */
+.wp-list-table th:nth-child(1), /* Date column */
+.wp-list-table td:nth-child(1) {
+    width: 20%;
+}
+
+.wp-list-table th:nth-child(2), /* User column */
+.wp-list-table td:nth-child(2) {
+    width: 15%;
+}
+
+.wp-list-table th:nth-child(3), /* Order Number column */
+.wp-list-table td:nth-child(3) {
+    width: 15%;
+}
+
+.wp-list-table th:nth-child(4), /* Details column */
+.wp-list-table td:nth-child(4) {
+    width: 50%;
+}
+
+/* Ensure table cells don't wrap unnecessarily */
+.wp-list-table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Allow Details column to wrap if needed */
+.wp-list-table td:nth-child(4) {
+    white-space: normal;
+    word-break: break-word;
+}
+
+/* Add some padding to cells for better readability */
+.wp-list-table th,
+.wp-list-table td {
+    padding: 12px 10px;
+} 

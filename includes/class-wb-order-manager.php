@@ -9,9 +9,11 @@
 class WB_Order_Manager {
     // Our bouncer - handles security checks
     private $security;
+    private $logger;
 
     public function __construct() {
         $this->security = new WB_Security();
+        $this->logger = new WB_Logger();
     }
 
     /**
@@ -221,9 +223,22 @@ class WB_Order_Manager {
         if ($order_id && $new_status) {
             $order = wc_get_order($order_id);
             if ($order instanceof WC_Order && $order->get_type() === 'shop_order') {
+                $old_status = $order->get_status();
                 $order->update_status($new_status);
+                
+                // Log the status change
+                $this->logger->log(
+                    $order_id,
+                    sprintf(
+                        __('Order status changed from %s to %s', 'easy-order-management'),
+                        $old_status,
+                        $new_status
+                    )
+                );
+
                 $this->security->log_security_event('order_status_updated', [
                     'order_id' => $order_id,
+                    'old_status' => $old_status,
                     'new_status' => $new_status
                 ]);
                 wp_send_json_success();

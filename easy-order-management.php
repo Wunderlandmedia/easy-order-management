@@ -14,7 +14,7 @@
  * Plugin Name: Easy Order Management
  * Plugin URI:  https://wunderlandmedia.com
  * Description: Simple and secure order management for WooCommerce with custom field support and role-based access control.
- * Version:     1.0.0
+ * Version:     1.1.0
  * Author:      Wunderlandmedia
  * Author URI:  https://wunderlandmedia.com
  * License:     MIT
@@ -81,7 +81,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WB_VERSION', '1.0.0');
+define('WB_VERSION', '1.1.0');
 define('WB_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WB_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WB_MINIMUM_WP_VERSION', '5.0');
@@ -168,6 +168,9 @@ function wb_install(): void {
         ];
         update_option('wb_order_management_settings', $default_settings);
     }
+
+    // Initialize logger and create logs table
+    $logger = new WB_Logger();
 
     // Trigger action for additional installation tasks
     do_action('wb_install');
