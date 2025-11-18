@@ -1,16 +1,52 @@
 <?php
 /**
- * Handles all the admin-side stuff for our order management plugin
- * Sets up the menu, loads assets, and handles order status updates
+ * Admin class for Easy Order Management
+ *
+ * Handles all admin-side functionality including menu items, asset loading,
+ * and AJAX handlers for the order management interface.
+ *
+ * @package Easy_Order_Management
+ * @since   1.0.0
+ */
+
+// Prevent direct access
+if (!defined('ABSPATH')) {
+    exit;
+}
+
+/**
+ * Class WB_Admin
+ *
+ * Manages the WordPress admin interface for the plugin.
+ *
+ * @since 1.0.0
  */
 class WB_Admin {
+    /**
+     * Order manager instance
+     *
+     * @var WB_Order_Manager
+     */
     private $order_manager;
+
+    /**
+     * Logger instance
+     *
+     * @var WB_Logger
+     */
     private $logger;
 
+    /**
+     * Constructor
+     *
+     * Initializes the admin interface and sets up WordPress hooks.
+     *
+     * @since 1.0.0
+     */
     public function __construct() {
         $this->order_manager = new WB_Order_Manager();
         $this->logger = new WB_Logger();
-        
+
         // Hook into WordPress admin
         add_action('admin_menu', array($this, 'add_menu_item'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_assets'));
@@ -18,9 +54,14 @@ class WB_Admin {
     }
 
     /**
-     * Adds our custom menu items and submenus
+     * Adds custom menu items and submenus to WordPress admin
+     *
+     * Creates the main Order Management menu and its subpages.
+     *
+     * @since 1.0.0
+     * @return void
      */
-    public function add_menu_item() {
+    public function add_menu_item(): void {
         // Main menu page
         add_menu_page(
             esc_html__('Order Management', 'easy-order-management'),
@@ -55,9 +96,15 @@ class WB_Admin {
 
     /**
      * Loads CSS and JS files for the admin
-     * Only loads them on our plugin's pages
+     *
+     * Only enqueues assets on our plugin's pages to avoid conflicts
+     * and improve performance.
+     *
+     * @since 1.0.0
+     * @param string $hook The current admin page hook
+     * @return void
      */
-    public function enqueue_assets($hook) {
+    public function enqueue_assets(string $hook): void {
         // Check if we're on any of our plugin's pages
         $valid_pages = [
             'toplevel_page_wb-order-management',
@@ -98,18 +145,26 @@ class WB_Admin {
     }
 
     /**
-     * Shows the main orders page
-     * Template handles all the display logic
+     * Renders the main orders page
+     *
+     * Loads the orders page template file.
+     *
+     * @since 1.0.0
+     * @return void
      */
-    public function render_orders_page() {
+    public function render_orders_page(): void {
         include WB_PLUGIN_DIR . 'templates/orders-page.php';
     }
 
     /**
-     * Shows the logs page
-     * Template handles all the display logic
+     * Renders the logs page
+     *
+     * Loads the logs page template file.
+     *
+     * @since 1.0.0
+     * @return void
      */
-    public function render_logs_page() {
+    public function render_logs_page(): void {
         include WB_PLUGIN_DIR . 'templates/logs-page.php';
     }
 } 

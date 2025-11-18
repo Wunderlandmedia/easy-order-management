@@ -1,21 +1,25 @@
 <?php
 /**
- * The control center for our plugin
- * 
- * This is where all the settings magic happens. Handles everything from
- * saving your preferences to making the admin interface look pretty.
- * 
- * Pro tip: Most of the plugin's behavior can be tweaked from here!
+ * Settings class for Easy Order Management
+ *
+ * Handles all plugin settings and options including column management,
+ * status labels, role access control, and field configuration.
+ *
+ * @package Easy_Order_Management
+ * @since   1.0.0
  */
 
-// Keep the hackers out
+// Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Class WB_Settings
- * Handles all plugin settings and options
+ *
+ * Manages plugin settings and provides the admin settings interface.
+ *
+ * @since 1.0.0
  */
 class WB_Settings {
     /**

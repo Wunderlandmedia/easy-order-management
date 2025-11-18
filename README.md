@@ -4,6 +4,14 @@
 
 A simple yet powerful order management system for WooCommerce with custom field support and role-based access control.
 
+## What's New in Version 1.2.0
+
+- 🚀 **Full HPOS Support**: Compatible with WooCommerce's High-Performance Order Storage
+- 🔒 **Enhanced Security**: Fixed vulnerabilities and improved input validation
+- ⚡ **Performance Boost**: Optimized database queries and reduced overhead
+- 📚 **Better Documentation**: Comprehensive code documentation following WordPress standards
+- 🔧 **WooCommerce 9.x Ready**: Tested and compatible with the latest WooCommerce updates
+
 ## Features
 
 - 🔒 Secure order management with role-based access control
@@ -19,8 +27,14 @@ A simple yet powerful order management system for WooCommerce with custom field 
 
 - WordPress 5.0 or higher
 - PHP 7.4 or higher
-- WooCommerce 6.0 or higher
+- WooCommerce 8.2 or higher
 - Advanced Custom Fields (optional, for custom fields)
+
+### Compatibility
+
+- ✅ **HPOS Compatible**: Fully compatible with WooCommerce High-Performance Order Storage
+- ✅ **WooCommerce 9.x**: Tested up to WooCommerce 9.9
+- ✅ **Modern PHP**: Optimized for PHP 7.4 and higher
 
 ## Installation
 

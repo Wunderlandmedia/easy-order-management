@@ -14,7 +14,7 @@
  * Plugin Name: Easy Order Management
  * Plugin URI:  https://wunderlandmedia.com
  * Description: Simple and secure order management for WooCommerce with custom field support and role-based access control.
- * Version:     1.1.0
+ * Version:     1.2.0
  * Author:      Wunderlandmedia
  * Author URI:  https://wunderlandmedia.com
  * License:     MIT
@@ -23,7 +23,8 @@
  * Domain Path: /languages
  * Requires at least: 5.0
  * Requires PHP: 7.4
- * WC requires at least: 6.0
+ * WC requires at least: 8.2
+ * WC tested up to: 9.9
  *
  * MIT License
  *
@@ -81,12 +82,12 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('WB_VERSION', '1.1.0');
+define('WB_VERSION', '1.2.0');
 define('WB_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WB_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WB_MINIMUM_WP_VERSION', '5.0');
 define('WB_MINIMUM_PHP_VERSION', '7.4');
-define('WB_MINIMUM_WC_VERSION', '6.0');
+define('WB_MINIMUM_WC_VERSION', '8.2');
 
 /**
  * Load plugin text domain
@@ -268,6 +269,13 @@ function wb_init(): void {
     }
 
     try {
+        // Declare HPOS compatibility
+        add_action('before_woocommerce_init', function() {
+            if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+                \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+            }
+        });
+
         // Initialize security
         $security = new WB_Security();
 

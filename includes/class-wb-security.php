@@ -1,21 +1,26 @@
 <?php
 /**
- * Our security bouncer
- * 
- * Handles all the security stuff - user permissions, rate limiting,
- * and keeping the bad guys out. Think of it as our plugin's bodyguard.
- * 
- * If something's not working, check if this guy is blocking you first!
+ * Security class for Easy Order Management
+ *
+ * Handles all security-related functionality including user permissions,
+ * rate limiting, input validation, and security logging.
+ *
+ * @package Easy_Order_Management
+ * @since   1.0.0
  */
 
-// No sneaking in through the back door
+// Prevent direct access
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
  * Class WB_Security
- * Handles security-related functionality
+ *
+ * Provides comprehensive security measures for the plugin including
+ * authentication, authorization, rate limiting, and input sanitization.
+ *
+ * @since 1.0.0
  */
 class WB_Security {
     /**
@@ -51,12 +56,14 @@ class WB_Security {
     /**
      * Makes sure users can only access what they're supposed to
      * Kicks out anyone trying to be sneaky
+     *
+     * @return void
      */
     public function verify_user_capabilities(): void {
-        global $pagenow;
-
         // Only check our plugin pages
-        if (!empty($_GET['page']) && strpos($_GET['page'], 'easy-order-management') === 0) {
+        $page = isset($_GET['page']) ? sanitize_text_field(wp_unslash($_GET['page'])) : '';
+
+        if (!empty($page) && strpos($page, 'easy-order-management') === 0) {
             // Get the VIP list (allowed roles)
             $settings = get_option('wb_order_management_settings', []);
             $role_access = $settings['role_access'] ?? ['administrator' => true, 'shop_manager' => true];
@@ -196,6 +203,10 @@ class WB_Security {
     /**
      * Cleans up user input to keep things safe
      * Different types get different treatment
+     *
+     * @param mixed  $data The data to validate
+     * @param string $type The type of validation to perform
+     * @return mixed Validated data
      */
     public function validate_data($data, string $type) {
         switch ($type) {
@@ -215,9 +226,6 @@ class WB_Security {
                 return sanitize_text_field($data);
             case 'html':
                 return wp_kses_post($data);
-            case 'sql':
-                global $wpdb;
-                return $wpdb->prepare('%s', $data);
             default:
                 return sanitize_text_field($data);
         }
